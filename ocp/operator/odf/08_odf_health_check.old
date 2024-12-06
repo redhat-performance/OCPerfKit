@@ -1,0 +1,32 @@
+#!/bin/bash
+
+# enable health check
+oc patch OCSInitialization ocsinit -n openshift-storage --type json --patch  '[{ "op": "replace", "path": "/spec/enableCephTools", "value": true }]'
+
+# check health ok
+
+# Namespace and tool pod name variables
+NAMESPACE="openshift-storage"
+TOOL_POD=$(oc get pod -n $NAMESPACE | grep tool | awk '{print $1}')
+
+if [ -z "$TOOL_POD" ]; then
+    echo "Error: No tool pod found in the $NAMESPACE namespace."
+    exit 1
+fi
+
+echo "Tool pod found: $TOOL_POD"
+echo "Checking Ceph health status..."
+
+# Execute Ceph health check
+HEALTH_STATUS=$(oc -n $NAMESPACE rsh $TOOL_POD ceph health detail)
+
+echo "Ceph Health Status:"
+echo "$HEALTH_STATUS"
+
+if [[ "$HEALTH_STATUS" == *"HEALTH_OK"* ]]; then
+    echo "Ceph cluster is healthy."
+    exit 0
+else
+    echo "Ceph cluster has issues. Please review the details above."
+    exit 1
+fi
