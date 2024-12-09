@@ -20,6 +20,11 @@ Before starting, ensure the following:
    - Verify that the OpenShift installer supports Azure Boost VM v6. The required patch can be found here:  
      [PR #922](https://github.com/openshift/installer/pull/922)
 
+5. **For ODF: After deploy cluster create 3 disks per worker:**
+    - Recommended: Premium SSD v2 (for performance test)
+    - Disk size: 1000 GB
+    - 20,000 IOPS and 750 MB/s (MSSQL recommendation)
+
 ---
 
 ## Usage
