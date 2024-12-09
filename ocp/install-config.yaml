@@ -1,0 +1,47 @@
+apiVersion: v1
+baseDomain: example.org
+compute:
+- architecture: amd64
+  hyperthreading: Enabled
+  name: worker
+  platform: 
+    azure:
+      osDisk:
+        diskSizeGB: 128
+      type: Standard_D32ds_v6
+  replicas: 3
+controlPlane:
+  architecture: amd64
+  hyperthreading: Enabled
+  name: master
+  platform:
+    azure:
+      osDisk:
+        diskSizeGB: 128
+      type: Standard_D32s_v6
+  replicas: 3
+metadata:
+  creationTimestamp: null
+  name: ocp4
+networking:
+  clusterNetwork:
+  - cidr: 10.128.0.0/14
+    hostPrefix: 23
+  machineNetwork:
+  - cidr: 10.0.0.0/16
+  networkType: OVNKubernetes
+  serviceNetwork:
+  - 172.30.0.0/16
+platform:
+  azure:
+    baseDomainResourceGroupName: eli-v6
+    cloudName: AzurePublicCloud
+    outboundType: Loadbalancer
+    region: eastus
+    userTags:
+         delete: not
+         environment: boost-vm
+         team: perf-team
+         owner: owner
+publish: External
+pullSecret: ''
