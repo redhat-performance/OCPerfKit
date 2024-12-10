@@ -5,10 +5,10 @@ export MAIN_PATH = $(shell pwd)
 
 # Directory containing the OpenShift configuration
 export INSTALL_DIR = $(MAIN_PATH)/ocp4
-export INSTALLER_PATH = $(MAIN_PATH)/openshift-install
-
 # OpenShift release image override
 export RELEASE_IMAGE_OVERRIDE = quay.io/openshift-release-dev/ocp-release:4.18.0-ec.4-x86_64
+export INSTALLER_PATH = $(RELEASE_IMAGE_OVERRIDE) $(MAIN_PATH)/openshift-install
+
 
 # Run Workload
 export TEST_PATH = $(MAIN_PATH)/test/./run_test.sh
@@ -57,6 +57,5 @@ help:
 	@echo "  make cluster         - Create the cluster"
 	@echo "  make destroy         - Destroy the cluster"
 	@echo "  make operator        - Install CNV/LSO/ODF operators [DATA DISK Required!!!]"
-	@echo "  make test            - Run Workloads (ensure test environments are configured in environment_variables.sh and podman is installed):Results path: /tmp/benchmark-runner-run-artifacts"
+	@echo "  make test            - Run Workloads (ensure test environments are configured and podman is installed):Results path: /tmp/benchmark-runner-run-artifacts"
 	@echo "  make version         - Display the OpenShift installer version"
-
