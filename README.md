@@ -23,7 +23,10 @@ Before starting, ensure the following:
 5. **For ODF: After deploy cluster create 3 disks per worker:**
     - Recommended: Premium SSD v2 (for performance test)
     - Disk size: 1000 GB
-    - 20,000 IOPS and 750 MB/s (MSSQL recommendation)
+    - 20,000 IOPS and 750 MB/s Throughput (MSSQL recommendation)
+
+6. **List of Supported Workloads:**
+    - 'stressng_pod', 'stressng_vm', 'stressng_kata', 'uperf_pod', 'uperf_vm', 'uperf_kata', 'hammerdb_pod_mariadb', 'hammerdb_vm_mariadb', 'hammerdb_kata_mariadb', 'hammerdb_pod_mariadb_lso', 'hammerdb_vm_mariadb_lso', 'hammerdb_kata_mariadb_lso', 'hammerdb_pod_postgres', 'hammerdb_vm_postgres', 'hammerdb_kata_postgres', 'hammerdb_pod_postgres_lso', 'hammerdb_vm_postgres_lso', 'hammerdb_kata_postgres_lso', 'hammerdb_pod_mssql', 'hammerdb_vm_mssql', 'hammerdb_kata_mssql', 'hammerdb_pod_mssql_lso', 'hammerdb_vm_mssql_lso', 'hammerdb_kata_mssql_lso', 'vdbench_pod', 'vdbench_kata', 'vdbench_vm', 'clusterbuster', 'bootstorm_vm', 'windows_vm'
 
 ---
 
