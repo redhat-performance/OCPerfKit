@@ -5,9 +5,9 @@ export MAIN_PATH = $(shell pwd)
 
 # Directory containing the OpenShift configuration
 export INSTALL_DIR = $(MAIN_PATH)/ocp4
-# OpenShift release image override
+# OpenShift release image override for azure v6 patch, should be removed for official installer version from 'make cluster'
 export RELEASE_IMAGE_OVERRIDE = quay.io/openshift-release-dev/ocp-release:4.18.0-ec.4-x86_64
-export INSTALLER_PATH = $(RELEASE_IMAGE_OVERRIDE) $(MAIN_PATH)/openshift-install
+export INSTALLER_PATH = $(MAIN_PATH)/openshift-install
 
 
 # Run Workload
@@ -20,8 +20,8 @@ install-config:
 	$(INSTALLER_PATH) create install-config --dir="$(INSTALL_DIR)"
 
 cluster:
-	$(INSTALLER_PATH) create cluster --dir="$(INSTALL_DIR)"
-	$(MAIN_PATH)/.kube/login.sh
+	RELEASE_IMAGE_OVERRIDE=$(RELEASE_IMAGE_OVERRIDE) $(INSTALLER_PATH) create cluster --dir="$(INSTALL_DIR)"
+	$(MAIN_PATH)/login.sh
 
 destroy:
 	$(INSTALLER_PATH) destroy cluster --dir="$(INSTALL_DIR)"
@@ -54,7 +54,7 @@ version:
 help:
 	@echo "Usage:"
 	@echo "  make install-config  - Create the install configuration"
-	@echo "  make cluster         - Create the cluster"
+	@echo "  make cluster         - Create the cluster: remove RELEASE_IMAGE_OVERRIDE prefix for offical version"
 	@echo "  make destroy         - Destroy the cluster"
 	@echo "  make operator        - Install CNV/LSO/ODF operators [DATA DISK Required!!!]"
 	@echo "  make test            - Run Workloads (ensure test environments are configured and podman is installed):Results path: /tmp/benchmark-runner-run-artifacts"
