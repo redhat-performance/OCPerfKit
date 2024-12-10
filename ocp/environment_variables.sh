@@ -12,6 +12,8 @@ export ODF_VERSION="4.17"
 export LSO_VERSION="4.17"
 export LSO_VERSION_NAME="417"
 # ODF:
+# disk type: 'wwn', 'nvme'
+export ODF_DISK_TYPE='nvme'
 export ODF_DISK_MIN_SIZE="0.5Ti"
 export ODF_DISK_MAX_SIZE="2.5Ti"
 export ODF_DISK_PER_WORKER=3  # Maximum number of devices per node to be used
