@@ -3,7 +3,7 @@
 This guide provides instructions for deploying OpenShift on-premise using cloud platforms like Azure or AWS. The deployment process includes creating the cluster, installing required operators, running workloads, and managing the cluster lifecycle.
 
 ## Prerequisites
-
+Update environment_variables.sh
 - **Cloud Environment**: Ensure access to your chosen cloud platform (Azure, AWS, etc.)
 - **OpenShift Installer**: Install the required version of the OpenShift installer
 - **Podman**: Ensure Podman is installed on the system for running workloads

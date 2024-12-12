@@ -8,6 +8,8 @@ export MAIN_PATH = $(shell pwd)
 .PHONY: install-config cluster destroy help operator version test
 
 cluster:
+	@echo "Checking and updating repository..."
+	git pull
 	@read -p "Did you copy your pull secret to pull_secret.txt ? [y/N] " confirm && if [ "$$confirm" != "y" ]; then \
 		echo "Please copy your pull secret to pull_secret.txt: https://cloud.redhat.com/openshift/install/metal/installer-provisioned"; \
 		exit 1; \
@@ -30,6 +32,7 @@ operator:
 		echo "Please add the disks before proceeding."; \
 		exit 1; \
 	fi
+	@git pull
 	@bash -c "source $(MAIN_PATH)/environment_variables.sh && $(HEAD_PATH)/operator/run_operator.sh"
 
 test:
@@ -41,6 +44,7 @@ test:
 		echo "Please configure environments in $(MAIN_PATH)/environment_variables.sh before running tests!"; \
 		exit 1; \
 	fi
+	@git pull
 	@bash -c "source $(MAIN_PATH)/environment_variables.sh && $(HEAD_PATH)/test/run_test.sh"
 
 help:
