@@ -1,30 +1,20 @@
-# Makefile for OpenShift installation and cluster management
+# Makefile for OpenShift On-premise installation
+
+# Set MAIN_PATH to one level up from the current directory
+export HEAD_PATH=$(dirname $(pwd))
 
 # Dynamically set MAIN_PATH to the current directory
 export MAIN_PATH = $(shell pwd)
 
-# Directory containing the OpenShift configuration
-export INSTALL_DIR = $(MAIN_PATH)/ocp4
-# OpenShift release image override
-export RELEASE_IMAGE_OVERRIDE = quay.io/openshift-release-dev/ocp-release:4.18.0-ec.4-x86_64
-export INSTALLER_PATH = $(RELEASE_IMAGE_OVERRIDE) $(MAIN_PATH)/openshift-install
-
-
-# Run Workload
-export TEST_PATH = $(MAIN_PATH)/test/./run_test.sh
-
 # Targets
 .PHONY: install-config cluster destroy help operator version test
 
-install-config:
-	$(INSTALLER_PATH) create install-config --dir="$(INSTALL_DIR)"
-
 cluster:
-	$(INSTALLER_PATH) create cluster --dir="$(INSTALL_DIR)"
-	$(MAIN_PATH)/.kube/login.sh
-
-destroy:
-	$(INSTALLER_PATH) destroy cluster --dir="$(INSTALL_DIR)"
+	@read -p "Did you copy your pull secret to pull_secret.txt ? [y/N] " confirm && if [ "$$confirm" != "y" ]; then \
+		echo "Please copy your pull secret to pull_secret.txt: https://cloud.redhat.com/openshift/install/metal/installer-provisioned"; \
+		exit 1; \
+    bash -c "source $(MAIN_PATH)/environment_variables.sh && $(MAIN_PATH)/jetlag/run_jetlag.sh"
+	$(MAIN_PATH)/login.sh
 
 operator:
 	@if [ ! -f "$(MAIN_PATH)/environment_variables.sh" ]; then \
@@ -35,7 +25,7 @@ operator:
 		echo "Please add the disks before proceeding."; \
 		exit 1; \
 	fi
-	bash -c "source $(MAIN_PATH)/environment_variables.sh && $(MAIN_PATH)/operator/run_operator.sh"
+	bash -c "source $(MAIN_PATH)/environment_variables.sh && $(HEAD_PATH)/operator/run_operator.sh"
 
 test:
 	@if [ ! -f "$(MAIN_PATH)/environment_variables.sh" ]; then \
@@ -46,16 +36,11 @@ test:
 		echo "Please configure environments in $(MAIN_PATH)/environment_variables.sh before running tests!"; \
 		exit 1; \
 	fi
-	bash -c "source $(MAIN_PATH)/environment_variables.sh && $(TEST_PATH)"
+	bash -c "source $(MAIN_PATH)/environment_variables.sh && $(HEAD_PATH)/test/run_test.sh"
 
-version:
-	$(INSTALLER_PATH) version
 
 help:
 	@echo "Usage:"
-	@echo "  make install-config  - Create the install configuration"
-	@echo "  make cluster         - Create the cluster"
-	@echo "  make destroy         - Destroy the cluster"
+	@echo "  make cluster         - Create BareMetal cluster"
 	@echo "  make operator        - Install CNV/LSO/ODF operators [DATA DISK Required!!!]"
 	@echo "  make test            - Run Workloads (ensure test environments are configured and podman is installed):Results path: /tmp/benchmark-runner-run-artifacts"
-	@echo "  make version         - Display the OpenShift installer version"
