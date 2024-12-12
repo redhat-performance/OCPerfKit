@@ -17,3 +17,4 @@ systemctl start haproxy
 source ${JETLAG_PATH}/bootstrap.sh
 ansible-playbook -i ${JETLAG_PATH}/ansible/inventory/cloud06.local ansible/setup-bastion.yml 2>&1 | tee ${JETLAG_PATH}/jetlag.log
 ansible-playbook -i ${JETLAG_PATH}/ansible/inventory/cloud06.local ansible/mno-deploy.yml 2>&1 | tee -a ${JETLAG_PATH}/jetlag.log
+
