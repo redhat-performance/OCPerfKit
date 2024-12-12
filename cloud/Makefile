@@ -58,6 +58,6 @@ help:
 	@echo "  make install-config  - Create the install configuration"
 	@echo "  make cluster         - Create the cluster: Comment out 'export OPENSHIFT_INSTALL_RELEASE_IMAGE_OVERRIDE' when using the official version"
 	@echo "  make destroy         - Destroy the cluster"
-	@echo "  make operator        - Install CNV/LSO/ODF operators [DATA DISK Required!!!]"
+	@echo "  make operator        - Install CNV/LSO/ODF operators [DATA DISK Required - 3 disks per worker!!!]"
 	@echo "  make test            - Run Workloads (ensure test environments are configured and podman is installed):Results path: /tmp/benchmark-runner-run-artifacts"
 	@echo "  make version         - Display the OpenShift installer version"

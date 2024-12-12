@@ -7,8 +7,7 @@ export JETLAG_PATH=${ON_PREMISE_PATH}/jetlag
 # Prerequisite
 dnf install -y git python3 podman
 
-# Jetlag
-# jetlag/
+
 # Operator
 export CNV_VERSION="4.17.0"
 export ODF_VERSION="4.17"
