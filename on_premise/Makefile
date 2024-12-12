@@ -42,5 +42,5 @@ test:
 help:
 	@echo "Usage:"
 	@echo "  make cluster         - Create BareMetal cluster"
-	@echo "  make operator        - Install CNV/LSO/ODF operators [DATA DISK Required!!!]"
+	@echo "  make operator        - Install CNV/LSO/ODF operators [DATA DISK Required - 3 disks per worker!!!]"
 	@echo "  make test            - Run Workloads (ensure test environments are configured and podman is installed):Results path: /tmp/benchmark-runner-run-artifacts"
