@@ -23,7 +23,7 @@ cluster:
                 exit 1; \
         fi
 	OPENSHIFT_INSTALL_RELEASE_IMAGE_OVERRIDE=quay.io/openshift-release-dev/ocp-release:4.18.0-ec.4-x86_64 $(INSTALLER_PATH) create cluster --dir="$(INSTALL_DIR)"
-	$(MAIN_PATH)/login.sh
+	bash -c "source $(MAIN_PATH)/environment_variables.sh && $(MAIN_PATH)/login.sh"
 
 destroy:
 	$(INSTALLER_PATH) destroy cluster --dir="$(INSTALL_DIR)"

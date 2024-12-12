@@ -1,6 +1,6 @@
 #!/bin/bash
 # Vars
-source environment_variables.sh
+source ../environment_variables.sh
 
 # cleanup
 sudo rm -rf ${JETLAG_PATH}/jetlag.log
@@ -16,6 +16,7 @@ systemctl start haproxy
 
 # run jetlag
 source ${JETLAG_PATH}/bootstrap.sh
-ansible-playbook -i ${JETLAG_PATH}/ansible/create-inventory.yml 2>&1 | tee ${JETLAG_PATH}/jetlag.log
-ansible-playbook -i ${JETLAG_PATH}/ansible/inventory/cloud06.local ansible/setup-bastion.yml 2>&1 | tee ${JETLAG_PATH}/jetlag.log
-ansible-playbook -i ${JETLAG_PATH}/ansible/inventory/cloud06.local ansible/mno-deploy.yml 2>&1 | tee -a ${JETLAG_PATH}/jetlag.log
+
+ansible-playbook -i ansible/create-inventory.yml 2>&1 | tee ${JETLAG_PATH}/jetlag.log
+ansible-playbook -i ansible/inventory/cloud06.local ansible/setup-bastion.yml 2>&1 | tee ${JETLAG_PATH}/jetlag.log
+ansible-playbook -i ansible/inventory/cloud06.local ansible/mno-deploy.yml 2>&1 | tee -a ${JETLAG_PATH}/jetlag.log

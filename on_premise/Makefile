@@ -1,7 +1,5 @@
-# Makefile for OpenShift On-premise installation
-
 # Set MAIN_PATH to one level up from the current directory
-export HEAD_PATH=$(dirname $(pwd))
+export HEAD_PATH = $(dir $(pwd))
 
 # Dynamically set MAIN_PATH to the current directory
 export MAIN_PATH = $(shell pwd)
@@ -13,8 +11,15 @@ cluster:
 	@read -p "Did you copy your pull secret to pull_secret.txt ? [y/N] " confirm && if [ "$$confirm" != "y" ]; then \
 		echo "Please copy your pull secret to pull_secret.txt: https://cloud.redhat.com/openshift/install/metal/installer-provisioned"; \
 		exit 1; \
-    bash -c "source $(MAIN_PATH)/environment_variables.sh && $(MAIN_PATH)/jetlag/run_jetlag.sh"
-	$(MAIN_PATH)/login.sh
+	fi
+	@read -p "Did you fill CLOUD_NUM in environment_variables.sh ? [y/N] " confirm && if [ "$$confirm" != "y" ]; then \
+		echo "Please copy your pull secret to pull_secret.txt: https://cloud.redhat.com/openshift/install/metal/installer-provisioned"; \
+		exit 1; \
+	fi
+	$(cp $(MAIN_PATH)/run_jetlag.sh $(MAIN_PATH)/jetlag/run_jetlag.sh)
+	@chmod +x $(MAIN_PATH)/jetlag/run_jetlag.sh
+	@bash -c "source $(MAIN_PATH)/environment_variables.sh && $(MAIN_PATH)/jetlag/run_jetlag.sh"
+	@bash $(MAIN_PATH)/login.sh
 
 operator:
 	@if [ ! -f "$(MAIN_PATH)/environment_variables.sh" ]; then \
@@ -25,7 +30,7 @@ operator:
 		echo "Please add the disks before proceeding."; \
 		exit 1; \
 	fi
-	bash -c "source $(MAIN_PATH)/environment_variables.sh && $(HEAD_PATH)/operator/run_operator.sh"
+	@bash -c "source $(MAIN_PATH)/environment_variables.sh && $(HEAD_PATH)/operator/run_operator.sh"
 
 test:
 	@if [ ! -f "$(MAIN_PATH)/environment_variables.sh" ]; then \
@@ -36,11 +41,10 @@ test:
 		echo "Please configure environments in $(MAIN_PATH)/environment_variables.sh before running tests!"; \
 		exit 1; \
 	fi
-	bash -c "source $(MAIN_PATH)/environment_variables.sh && $(HEAD_PATH)/test/run_test.sh"
-
+	@bash -c "source $(MAIN_PATH)/environment_variables.sh && $(HEAD_PATH)/test/run_test.sh"
 
 help:
 	@echo "Usage:"
 	@echo "  make cluster         - Create BareMetal cluster"
 	@echo "  make operator        - Install CNV/LSO/ODF operators [DATA DISK Required - 3 disks per worker!!!]"
-	@echo "  make test            - Run Workloads (ensure test environments are configured and podman is installed):Results path: /tmp/benchmark-runner-run-artifacts"
+	@echo "  make test            - Run Workloads (ensure test environments are configured and podman is installed): Results path: /tmp/benchmark-runner-run-artifacts"

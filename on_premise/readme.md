@@ -8,13 +8,22 @@ This document provides instructions for setting up and using the Jetlag Performa
 
 Follow the steps below to configure the lab:
 
-1. **Copy the sample configuration file:**
+1. Clone OCPerfKit on home dir and fill environment_variables.sh [Must fill cloud number]
    ```bash
-   cp ansible/vars/all.sample.yml ansible/vars/all.yml
+   git clone https://github.com/redhat-performance/OCPerfKit
+   ```
+2. cd OCPerfKit/on_premise
+3. Clone jetlag
+   ```bash
+    cd /on_premise & git clone https://github.com/redhat-performance/jetlag**
+   ```
+4. **Copy the sample configuration file:**
+   ```bash
+   cp jetlag/ansible/vars/all.sample.yml jetlag/ansible/vars/all.yml
    ```
 
-2. **Edit the configuration file:**
-   Open `ansible/vars/all.yml` and configure the following parameters:
+5. **Edit the configuration file:**
+   Open `jetlag/ansible/vars/all.yml` and configure the following parameters:
 
    - **Lab Cloud:** Specify the cloud environment.
      ```yaml
@@ -47,7 +56,10 @@ Follow the steps below to configure the lab:
      bastion_controlplane_interface: [EM1]
      controlplane_lab_interface: [Public]
      ```
-
+5. **Enter key only once:**
+    ```bash
+    bashssh-keygen ; cp /root/.ssh/id_rsa.pub >> /root/.ssh/authorized_keys
+    ```
 ---
 
 ## How to Run
