@@ -6,6 +6,15 @@ export JETLAG_PATH=${ON_PREMISE_PATH}/jetlag
 
 # Jetlag Prerequisite
 dnf install -y git python3 podman
+# clone jetlag
+# Check if the 'jetlag' directory exists
+if [[ ! -d "jetlag" ]]; then
+    echo "Jetlag directory does not exist. Cloning repository..."
+    git clone https://github.com/redhat-performance/jetlag
+else
+    echo "Jetlag directory already exists. No need to clone."
+fi
+
 # Must configure cloud number according to performanceLab number e.g. cloud41
 export CLOUD_NUM="cloudXX"
 

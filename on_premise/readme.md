@@ -11,7 +11,7 @@ Follow the steps below to configure the lab:
 1. Update environment_variables.sh, important: specify CLOUD_NUM, the number of performance lab
 2. Clone jetlag
    ```bash
-    cd /on_premise & git clone https://github.com/redhat-performance/jetlag**
+    cd /on_premise **
    ```
 3. **Copy the sample configuration file:**
    ```bash
