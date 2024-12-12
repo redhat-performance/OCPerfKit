@@ -1,9 +1,7 @@
 #!/bin/bash
-# Set the main path
-HOME_PATH=$(dirname "$(pwd)")
-MAIN_PATH=$(pwd)
-echo "HOME_PATH=${HOME_PATH}"
-echo "MAIN_PATH=${MAIN_PATH}"
+
+# Vars
+source environment_variables.sh
 
 # Create the .kube directory if it does not exist
 if [[ ! -d "${HOME_PATH}/.kube" ]]; then

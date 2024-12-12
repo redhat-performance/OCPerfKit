@@ -1,17 +1,15 @@
-# Makefile for OpenShift installation and cluster management
+# Makefile for Cloud OpenShift installation
+
+# Set MAIN_PATH to one level up from the current directory
+export HEAD_PATH=$(dirname $(pwd))
 
 # Dynamically set MAIN_PATH to the current directory
 export MAIN_PATH = $(shell pwd)
 
 # Directory containing the OpenShift configuration
-export INSTALL_DIR = $(MAIN_PATH)/ocp4
-# OpenShift release image override for azure v6 patch, should be removed for official installer version from 'make cluster'
-export OPENSHIFT_INSTALL_RELEASE_IMAGE_OVERRIDE = quay.io/openshift-release-dev/ocp-release:4.18.0-ec.4-x86_64
 export INSTALLER_PATH = $(MAIN_PATH)/openshift-install
+export INSTALL_DIR = $(MAIN_PATH)/ocp4
 
-
-# Run Workload
-export TEST_PATH = $(MAIN_PATH)/test/./run_test.sh
 
 # Targets
 .PHONY: install-config cluster destroy help operator version test
@@ -24,7 +22,7 @@ cluster:
                 echo "Please configure 'install-config.yaml' before proceeding."; \
                 exit 1; \
         fi
-	$(INSTALLER_PATH) create cluster --dir="$(INSTALL_DIR)"
+	OPENSHIFT_INSTALL_RELEASE_IMAGE_OVERRIDE=quay.io/openshift-release-dev/ocp-release:4.18.0-ec.4-x86_64 $(INSTALLER_PATH) create cluster --dir="$(INSTALL_DIR)"
 	$(MAIN_PATH)/login.sh
 
 destroy:
@@ -39,7 +37,7 @@ operator:
 		echo "Please add the disks before proceeding."; \
 		exit 1; \
 	fi
-	bash -c "source $(MAIN_PATH)/environment_variables.sh && $(MAIN_PATH)/operator/run_operator.sh"
+	bash -c "source $(MAIN_PATH)/environment_variables.sh && $(HEAD_PATH)/operator/run_operator.sh"
 
 test:
 	@if [ ! -f "$(MAIN_PATH)/environment_variables.sh" ]; then \
@@ -50,7 +48,7 @@ test:
 		echo "Please configure environments in $(MAIN_PATH)/environment_variables.sh before running tests!"; \
 		exit 1; \
 	fi
-	bash -c "source $(MAIN_PATH)/environment_variables.sh && $(TEST_PATH)"
+	bash -c "source $(MAIN_PATH)/environment_variables.sh && $(HEAD_PATH)/test/run_test.sh"
 
 version:
 	$(INSTALLER_PATH) version
