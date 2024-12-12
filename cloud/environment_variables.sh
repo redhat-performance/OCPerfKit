@@ -1,4 +1,7 @@
 #!/bin/bash
+# Set the main path
+HOME_PATH=$(dirname "$(pwd)")
+MAIN_PATH=$(pwd)
 
 export HOME_PATH="/home/azureuser"
 
@@ -18,7 +21,7 @@ export OSD_COUNT=9
 
 # Test
 # Set environment variables
-export KUBEADMIN_PASSWORD=""
+export KUBEADMIN_PASSWORD=$(cat ${MAIN_PATH}/.kube/kubeadmin-password)
 # Every PIN different Worker node
 export PIN_NODE_BENCHMARK_OPERATOR=""
 export PIN_NODE1=""

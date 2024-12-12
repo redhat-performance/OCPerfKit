@@ -4,9 +4,10 @@ export HOME_PATH="/root"
 export ON_PREMISE_PATH=$(pwd)
 export JETLAG_PATH=${ON_PREMISE_PATH}/jetlag
 
-# Prerequisite
+# Jetlag Prerequisite
 dnf install -y git python3 podman
-
+# Must configure cloud number according to performanceLab number e.g. cloud41
+export CLOUD_NUM="cloudXX"
 
 # Operator
 export CNV_VERSION="4.17.0"
