@@ -8,21 +8,17 @@ This document provides instructions for setting up and using the Jetlag Performa
 
 Follow the steps below to configure the lab:
 
-1. Clone OCPerfKit on home dir and fill environment_variables.sh [Must fill cloud number]
-   ```bash
-   git clone https://github.com/redhat-performance/OCPerfKit
-   ```
-2. cd OCPerfKit/on_premise
-3. Clone jetlag
+1. Update environment_variables.sh, important: specify CLOUD_NUM, the number of performance lab
+2. Clone jetlag
    ```bash
     cd /on_premise & git clone https://github.com/redhat-performance/jetlag**
    ```
-4. **Copy the sample configuration file:**
+3. **Copy the sample configuration file:**
    ```bash
    cp jetlag/ansible/vars/all.sample.yml jetlag/ansible/vars/all.yml
    ```
 
-5. **Edit the configuration file:**
+4. **Edit the configuration file:**
    Open `jetlag/ansible/vars/all.yml` and configure the following parameters:
 
    - **Lab Cloud:** Specify the cloud environment.
