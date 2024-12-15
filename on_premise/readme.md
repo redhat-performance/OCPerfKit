@@ -8,10 +8,11 @@ This document provides instructions for setting up and using the Jetlag Performa
 
 Follow the steps below to configure the lab:
 
-1. Update environment_variables.sh, important: specify CLOUD_NUM, the number of performance lab
-2. Clone jetlag
+1. **Update and run environment_variables.sh, important: specify CLOUD_NUM, the number of performance lab**
+2. **MUST run Manually:**
    ```bash
-    cd /on_premise **
+   source environment_variables.sh
+   source jetlag/bootstrap.sh
    ```
 3. **Copy the sample configuration file:**
    ```bash

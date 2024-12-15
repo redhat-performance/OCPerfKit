@@ -8,7 +8,7 @@ set -x; cd "$(mktemp -d)" && OS="$(uname | tr '[:upper:]' '[:lower:]')" && ARCH=
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
 # ODF health check with timeout of 3600 seconds
-timeout=3600
+timeout=1200
 elapsed=0
 health_status=""
 

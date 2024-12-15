@@ -1,6 +1,7 @@
 #!/bin/bash
 
 export HOME_PATH="/root"
+export PARENT_PATH=$(dirname $(pwd))
 export ON_PREMISE_PATH=$(pwd)
 export JETLAG_PATH=${ON_PREMISE_PATH}/jetlag
 
@@ -11,12 +12,10 @@ dnf install -y git python3 podman
 if [[ ! -d "jetlag" ]]; then
     echo "Jetlag directory does not exist. Cloning repository..."
     git clone https://github.com/redhat-performance/jetlag
-else
-    echo "Jetlag directory already exists. No need to clone."
 fi
 
 # Must configure cloud number according to performanceLab number e.g. cloud41
-export CLOUD_NUM="cloudXX"
+export CLOUD_NUM="cloud41"
 
 # Operator
 export CNV_VERSION="4.17.0"
@@ -28,9 +27,9 @@ export LSO_VERSION_NAME="417"
 export ODF_DISK_TYPE='nvme'
 export ODF_DISK_MIN_SIZE="0.5Ti"
 export ODF_DISK_MAX_SIZE="2.5Ti"
-export ODF_DISK_PER_WORKER=3  # Maximum number of devices per node to be used
+export ODF_DISK_PER_WORKER="3"  # Maximum number of devices per node to be used
 # Total number of OSD
-export OSD_COUNT=9
+export OSD_COUNT="9"
 
 # Test
 # Set environment variables

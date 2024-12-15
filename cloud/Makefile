@@ -1,9 +1,9 @@
-# Makefile for Cloud OpenShift installation
+# Makefile for OCPPerfKit cloud
 
-# Set MAIN_PATH to one level up from the current directory
-export HEAD_PATH=$(dirname $(pwd))
+# Get PARENT folder up
+export PARENT_PATH = $(shell dirname $(MAIN_PATH))
 
-# Dynamically set MAIN_PATH to the current directory
+# Set MAIN_PATH to the current directory
 export MAIN_PATH = $(shell pwd)
 
 # Directory containing the OpenShift configuration
@@ -37,7 +37,7 @@ operator:
 		echo "Please add the disks before proceeding."; \
 		exit 1; \
 	fi
-	bash -c "source $(MAIN_PATH)/environment_variables.sh && $(HEAD_PATH)/operator/run_operator.sh"
+	bash -c "source $(MAIN_PATH)/environment_variables.sh && $(PARENT_PATH)/operator/run_operator.sh"
 
 test:
 	@if [ ! -f "$(MAIN_PATH)/environment_variables.sh" ]; then \
@@ -48,7 +48,7 @@ test:
 		echo "Please configure environments in $(MAIN_PATH)/environment_variables.sh before running tests!"; \
 		exit 1; \
 	fi
-	bash -c "source $(MAIN_PATH)/environment_variables.sh && $(HEAD_PATH)/test/run_test.sh"
+	bash -c "source $(MAIN_PATH)/environment_variables.sh && $(PARENT_PATH)/test/run_test.sh"
 
 version:
 	$(INSTALLER_PATH) version
