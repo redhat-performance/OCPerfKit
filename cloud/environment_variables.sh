@@ -21,7 +21,7 @@ export OSD_COUNT="9"
 
 # Test
 # Set environment variables
-export KUBEADMIN_PASSWORD=$(cat ${MAIN_PATH}/.kube/kubeadmin-password)
+export KUBEADMIN_PASSWORD=$(cat ${HOME_PATH}/.kube/kubeadmin-password)
 # Every PIN different Worker node
 export PIN_NODE_BENCHMARK_OPERATOR=""
 export PIN_NODE1=""
