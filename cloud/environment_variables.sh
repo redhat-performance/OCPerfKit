@@ -1,6 +1,6 @@
 #!/bin/bash
 # Set the main path
-HOME_PATH=$(dirname "$(pwd)")
+export PARENT_PATH=$(dirname $(pwd))
 MAIN_PATH=$(pwd)
 
 export HOME_PATH="/home/azureuser"
@@ -15,9 +15,9 @@ export LSO_VERSION_NAME="417"
 export ODF_DISK_TYPE='nvme'
 export ODF_DISK_MIN_SIZE="0.5Ti"
 export ODF_DISK_MAX_SIZE="2.5Ti"
-export ODF_DISK_PER_WORKER=3  # Maximum number of devices per node to be used
+export ODF_DISK_PER_WORKER="3"  # Maximum number of devices per node to be used
 # Total number of OSD
-export OSD_COUNT=9
+export OSD_COUNT="9"
 
 # Test
 # Set environment variables

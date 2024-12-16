@@ -1,26 +1,28 @@
-# Set MAIN_PATH to one level up from the current directory
-export HEAD_PATH = $(dir $(pwd))
+# Makefile for OCPPerfKit on-premise
 
-# Dynamically set MAIN_PATH to the current directory
+# Get PARENT folder up
+export PARENT_PATH = $(shell dirname $(MAIN_PATH))
+
+# Set MAIN_PATH to the current directory
 export MAIN_PATH = $(shell pwd)
 
 # Targets
 .PHONY: install-config cluster destroy help operator version test
 
 cluster:
-	@echo "Checking and updating repository..."
-	git pull
-	@read -p "Did you copy your pull secret to pull_secret.txt ? [y/N] " confirm && if [ "$$confirm" != "y" ]; then \
+	@echo "Checking environment setup..."
+	@read -p "Did you fill in environment_variables.sh and run 'source environment_variables.sh'? [y/N] " confirm && if [ "$$confirm" != "y" ]; then \
+		echo "Please fill in and source environment_variables.sh first."; \
+		exit 1; \
+	fi
+	@read -p "Did you copy your pull secret 'pull_secret.txt' to the jetlag folder? [y/N] " confirm && if [ "$$confirm" != "y" ]; then \
 		echo "Please copy your pull secret to pull_secret.txt: https://cloud.redhat.com/openshift/install/metal/installer-provisioned"; \
 		exit 1; \
 	fi
-	@read -p "Did you fill CLOUD_NUM in environment_variables.sh ? [y/N] " confirm && if [ "$$confirm" != "y" ]; then \
-		echo "Please copy your pull secret to pull_secret.txt: https://cloud.redhat.com/openshift/install/metal/installer-provisioned"; \
-		exit 1; \
-	fi
-	$(cp $(MAIN_PATH)/run_jetlag.sh $(MAIN_PATH)/jetlag/run_jetlag.sh)
-	@chmod +x $(MAIN_PATH)/jetlag/run_jetlag.sh
-	@bash -c "source $(MAIN_PATH)/environment_variables.sh && $(MAIN_PATH)/jetlag/run_jetlag.sh"
+	cp $(MAIN_PATH)/run_jetlag.sh $(MAIN_PATH)/jetlag/run_jetlag.sh
+	@chmod +x $(MAIN_PATH)/jetlag/bootstrap.sh $(MAIN_PATH)/jetlag/run_jetlag.sh
+	@bash -c "source $(MAIN_PATH)/environment_variables.sh && source $(MAIN_PATH)/jetlag/bootstrap.sh && $(MAIN_PATH)/jetlag/run_jetlag.sh"
+	@chmod +x $(MAIN_PATH)/login.sh
 	@bash $(MAIN_PATH)/login.sh
 
 operator:
@@ -33,7 +35,7 @@ operator:
 		exit 1; \
 	fi
 	@git pull
-	@bash -c "source $(MAIN_PATH)/environment_variables.sh && $(HEAD_PATH)/operator/run_operator.sh"
+	@bash -c "source $(MAIN_PATH)/environment_variables.sh && $(PARENT_PATH)/operator/run_operator.sh"
 
 test:
 	@if [ ! -f "$(MAIN_PATH)/environment_variables.sh" ]; then \
@@ -45,7 +47,7 @@ test:
 		exit 1; \
 	fi
 	@git pull
-	@bash -c "source $(MAIN_PATH)/environment_variables.sh && $(HEAD_PATH)/test/run_test.sh"
+	@bash -c "source $(MAIN_PATH)/environment_variables.sh && $(PARENT_PATH)/test/run_test.sh"
 
 help:
 	@echo "Usage:"
