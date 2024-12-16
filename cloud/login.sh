@@ -9,7 +9,7 @@ if [[ ! -d "${HOME_PATH}/.kube" ]]; then
   mkdir -p "${HOME_PATH}/.kube"
 fi
 
-cp ${HOME_PATH}/ocp4/auth/kubeconfig ${HOME_PATH}/.kube/config
-cp ${HOME_PATH}/ocp4/auth/kubeadmin-password ${HOME_PATH}/.kube/kubeadmin-password
-oc login -u kubeadmin -p $(cat ${HOME_PATH}/ocp4/auth/kubeadmin-password);
+cp ${MAIN_PATH}/ocp4/auth/kubeconfig ${HOME_PATH}/.kube/config
+cp ${MAIN_PATH}/ocp4/auth/kubeadmin-password ${HOME_PATH}/.kube/kubeadmin-password
+oc login -u kubeadmin -p $(cat ${MAIN_PATH}/ocp4/auth/kubeadmin-password);
 oc get nodes;
