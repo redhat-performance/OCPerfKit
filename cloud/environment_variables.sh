@@ -23,9 +23,9 @@ export OSD_COUNT="9"
 # Set environment variables
 export KUBEADMIN_PASSWORD=$(cat ${HOME_PATH}/.kube/kubeadmin-password)
 # Every PIN different Worker node
-export PIN_NODE_BENCHMARK_OPERATOR=""
-export PIN_NODE1=""
-export PIN_NODE2=""
+export PIN_NODE_BENCHMARK_OPERATOR=$(oc get nodes -l node-role.kubernetes.io/worker -o jsonpath='{.items[0].metadata.name}')
+export PIN_NODE1=$(oc get nodes -l node-role.kubernetes.io/worker -o jsonpath='{.items[1].metadata.name}')
+export PIN_NODE2=$(oc get nodes -l node-role.kubernetes.io/worker -o jsonpath='{.items[2].metadata.name}')
 export KUBECONFIG_PATH="${HOME_PATH}/.kube/config"
 # 'func_ci'(functional short run), 'perf_ci'(performance long run)
 export RUN_TYPE="func_ci"
