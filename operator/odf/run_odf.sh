@@ -1,5 +1,5 @@
 #!/bin/bash
-
+cd ${PARENT_PATH}/operator/odf/
 # Run the scripts in sequence
 #./01_create_lso_stable.sh
 ./01_create_lso.sh
