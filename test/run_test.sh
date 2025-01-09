@@ -11,9 +11,9 @@ if [ ! -d "$RESULTS_PATH" ]; then
 fi
 
 # Check if the image exists and delete it if found
-if podman image exists "$IMAGE_NAME"; then
+if sudo podman images -q "$IMAGE_NAME" > /dev/null 2>&1; then
     echo "Deleting existing image $IMAGE_NAME"
-    podman rmi -f "$IMAGE_NAME"
+    sudo podman rmi -f "$IMAGE_NAME"
 else
     echo "Image $IMAGE_NAME not found. Skipping deletion."
 fi
