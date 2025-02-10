@@ -25,7 +25,7 @@ echo "Example: $RESULTS_PATH/hammerdb-vm-mssql-2024-11-28-08-22-39/hammerdb-vm-w
 sudo podman run --rm -it \
     -e WORKLOAD="$WORKLOAD" \
     -e KUBEADMIN_PASSWORD="$KUBEADMIN_PASSWORD" \
-    -e KUBECONFIG_PATH="$KUBECONFIG_PATH" \
+    -e KUBECONFIG_PATH="$CONTAINER_KUBECONFIG_PATH" \
     -e PIN_NODE_BENCHMARK_OPERATOR="$PIN_NODE_BENCHMARK_OPERATOR" \
     -e PIN_NODE1="$PIN_NODE1" \
     -e PIN_NODE2="$PIN_NODE2" \
@@ -34,6 +34,6 @@ sudo podman run --rm -it \
     -e RUN_TYPE="$RUN_TYPE" \
     -e TIMEOUT=$TIMEOUT \
     -e log_level="INFO" \
-    -v "$KUBECONFIG_PATH":"/root/.kube/config" \
+    -v "$KUBECONFIG_PATH":"$CONTAINER_KUBECONFIG_PATH" \
     -v "$RESULTS_PATH":"$RESULTS_PATH" \
     --privileged "$IMAGE_NAME"
