@@ -59,6 +59,11 @@ Follow the steps below to configure the lab:
     ```
 ---
 
+6. **Copy pull_secret.txt to /jetlag folder:**
+    ```bash
+    cp pull_secret.txt /jetlag
+    ```
+---
 ## How to Run
 
 ### Usage
