@@ -39,6 +39,7 @@ export PIN_NODE_BENCHMARK_OPERATOR=$(oc get nodes -l node-role.kubernetes.io/wor
 export PIN_NODE1=$(oc get nodes -l node-role.kubernetes.io/worker -o jsonpath='{.items[1].metadata.name}')
 export PIN_NODE2=$(oc get nodes -l node-role.kubernetes.io/worker -o jsonpath='{.items[2].metadata.name}')
 export KUBECONFIG_PATH="${HOME_PATH}/.kube/config"
+export CONTAINER_KUBECONFIG_PATH="/root/.kube/config"
 # 'func_ci'(functional short run), 'perf_ci'(performance long run)
 export RUN_TYPE="func_ci"
 export TIMEOUT=10000
