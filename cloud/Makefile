@@ -16,16 +16,19 @@ install-config:
 	$(INSTALLER_PATH) create install-config --dir="$(INSTALL_DIR)"
 
 cluster:
+	@if [ -d "$(MAIN_PATH)/ocp4" ]; then rm -rf "$(MAIN_PATH)/ocp4"; fi && \
+	mkdir $(MAIN_PATH)/ocp4 && \
+	cp $(MAIN_PATH)/install-config.yaml $(MAIN_PATH)/ocp4/
 	@if [ ! -d "$(INSTALL_DIR)" ]; then \
 		echo "Directory '$(INSTALL_DIR)' not found. Please ensure it exists."; \
 		exit 1; \
 	fi
-	@read -p "Did you copy or configure 'install-config.yaml' file in 'ocp4' folder? [y/N] " confirm; \
+	@read -p "Did you configure '$(MAIN_PATH)/install-config.yaml'? [y/N] " confirm; \
 	if [ "$$confirm" != "y" ]; then \
-		echo "Please configure 'install-config.yaml' before proceeding."; \
+		echo "Please configure '$(MAIN_PATH)/install-config.yaml' before proceeding."; \
 		exit 1; \
 	fi
-	OPENSHIFT_INSTALL_RELEASE_IMAGE_OVERRIDE=quay.io/openshift-release-dev/ocp-release:4.18.0-ec.4-x86_64 $(INSTALLER_PATH) create cluster --dir="$(INSTALL_DIR)"
+	$(INSTALLER_PATH) create cluster --dir="$(INSTALL_DIR)"
 	bash -c "source $(MAIN_PATH)/environment_variables.sh && $(MAIN_PATH)/login.sh"
 
 destroy:

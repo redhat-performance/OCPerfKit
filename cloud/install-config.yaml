@@ -40,8 +40,8 @@ platform:
     region: eastus
     userTags:
          delete: not
-         environment: boost-vm
-         team: perf-team
+         environment: dev
+         team: team
          owner: owner
 publish: External
 pullSecret: ''
