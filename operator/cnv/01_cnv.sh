@@ -1,5 +1,4 @@
 #!/bin/bash
-cd ${PARENT_PATH}/operator/cnv/
 echo "Using CNV version: ${CNV_VERSION}"  # Echo the version for testing
 # Use the environment variable to replace the version in the YAML
 cat <<EOF | kubectl apply -f -
