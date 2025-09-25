@@ -29,7 +29,7 @@ sudo podman run --rm -it \
     -e PIN_NODE1="$PIN_NODE1" \
     -e PIN_NODE2="$PIN_NODE2" \
     -e SAVE_ARTIFACTS_LOCAL=True \
-    -e ENABLE_PROMETHEUS_SNAPSHOT=False \
+    -e ENABLE_PROMETHEUS_SNAPSHOT="$ENABLE_PROMETHEUS_SNAPSHOT" \
     -e RUN_TYPE="$RUN_TYPE" \
     -e TIMEOUT=$TIMEOUT \
     -e log_level="INFO" \

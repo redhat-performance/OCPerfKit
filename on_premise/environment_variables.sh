@@ -40,6 +40,7 @@ export PIN_NODE1=$(oc get nodes -l node-role.kubernetes.io/worker -o jsonpath='{
 export PIN_NODE2=$(oc get nodes -l node-role.kubernetes.io/worker -o jsonpath='{.items[2].metadata.name}')
 export KUBECONFIG_PATH="${HOME_PATH}/.kube/config"
 export CONTAINER_KUBECONFIG_PATH="/root/.kube/config"
+export ENABLE_PROMETHEUS_SNAPSHOT='False'
 # 'func_ci'(functional short run), 'perf_ci'(performance long run)
 export RUN_TYPE="func_ci"
 export TIMEOUT=20000
