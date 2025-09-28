@@ -41,6 +41,9 @@ export PIN_NODE2=$(oc get nodes -l node-role.kubernetes.io/worker -o jsonpath='{
 export KUBECONFIG_PATH="${HOME_PATH}/.kube/config"
 export CONTAINER_KUBECONFIG_PATH="/root/.kube/config"
 export ENABLE_PROMETHEUS_SNAPSHOT='False'
+# LSO disk id w/o '/dev/disk/by-id/' i.e. LSO_DISK_ID="nvme-eui.2dd4ce36818041708da77f"
+export LSO_DISK_ID=""
+export LSO_NODE=""
 # 'func_ci'(functional short run), 'perf_ci'(performance long run)
 export RUN_TYPE="func_ci"
 export TIMEOUT=20000

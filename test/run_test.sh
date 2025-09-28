@@ -30,6 +30,8 @@ sudo podman run --rm -it \
     -e PIN_NODE2="$PIN_NODE2" \
     -e SAVE_ARTIFACTS_LOCAL=True \
     -e ENABLE_PROMETHEUS_SNAPSHOT="$ENABLE_PROMETHEUS_SNAPSHOT" \
+    -e LSO_DISK_ID="$LSO_DISK_ID" \
+    -e LSO_NODE="$LSO_NODE" \
     -e RUN_TYPE="$RUN_TYPE" \
     -e TIMEOUT=$TIMEOUT \
     -e log_level="INFO" \
