@@ -15,7 +15,7 @@ export INSTALL_DIR = $(MAIN_PATH)/ocp4
 install-config:
 	$(INSTALLER_PATH) create install-config --dir="$(INSTALL_DIR)"
 
-cluster:
+cluster deploy:
 	@if [ -d "$(MAIN_PATH)/ocp4" ]; then rm -rf "$(MAIN_PATH)/ocp4"; fi && \
 	mkdir $(MAIN_PATH)/ocp4 && \
 	cp $(MAIN_PATH)/install-config.yaml $(MAIN_PATH)/ocp4/
