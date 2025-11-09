@@ -78,7 +78,7 @@ Installs the CNV/LSO/ODF operators. Ensure that each worker node has **3 data di
 
 ### 5. Run Workloads
 ```bash
-make test
+make workload
 ```
 Runs workloads on the OpenShift cluster. Ensure the test environments are configured, and Podman is installed.
 

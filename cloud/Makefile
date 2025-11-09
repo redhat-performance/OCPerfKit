@@ -28,7 +28,8 @@ cluster deploy:
 		echo "Please configure '$(MAIN_PATH)/install-config.yaml' before proceeding."; \
 		exit 1; \
 	fi
-	$(INSTALLER_PATH) create cluster --dir="$(INSTALL_DIR)"
+#	OPENSHIFT_INSTALL_RELEASE_IMAGE_OVERRIDE=quay.io/openshift-release-dev/ocp-release:4.18.0-ec.4-x86_64 "$(INSTALLER_PATH)" create cluster --dir="$(INSTALL_DIR)"
+	"$(INSTALLER_PATH)" create cluster --dir="$(INSTALL_DIR)"
 	bash -c "source $(MAIN_PATH)/environment_variables.sh && $(MAIN_PATH)/login.sh"
 
 destroy:
@@ -52,7 +53,15 @@ operator: operator_common
 	fi
 	bash -c "source $(MAIN_PATH)/environment_variables.sh && $(PARENT_PATH)/operator/run_operator.sh"
 
-operator_odf: operator_common
+lso: operator_common
+	@read -p "Did you add the required LSO disk (1 disk per worker)? [y/N] " confirm; \
+	if [ "$$confirm" != "y" ]; then \
+	    echo "Please add the disks before proceeding."; \
+	    exit 1; \
+	fi; \
+	bash -c "source $(MAIN_PATH)/environment_variables.sh && $(PARENT_PATH)/operator/lso/run_lso.sh"
+
+odf: operator_common
 	@read -p "Did you add the required ODF disks (3 disks per worker)? [y/N] " confirm; \
 	if [ "$$confirm" != "y" ]; then \
 		echo "Please add the disks before proceeding."; \
@@ -60,16 +69,16 @@ operator_odf: operator_common
 	fi
 	bash -c "source $(MAIN_PATH)/environment_variables.sh && $(PARENT_PATH)/operator/odf/run_odf.sh"
 
-operator_cnv: operator_common
+cnv: operator_common
 	bash -c "source $(MAIN_PATH)/environment_variables.sh && $(PARENT_PATH)/operator/cnv/run_cnv.sh"
 
-test: operator_common
+workload: operator_common
 	@read -p "Did you configure test environments in $(MAIN_PATH)/environment_variables.sh? [y/N] " confirm; \
 	if [ "$$confirm" != "y" ]; then \
-		echo "Please configure environments in $(MAIN_PATH)/environment_variables.sh before running tests!"; \
+		echo "Please configure environments in $(MAIN_PATH)/environment_variables.sh before running workload!"; \
 		exit 1; \
 	fi
-	bash -c "source $(MAIN_PATH)/environment_variables.sh && $(PARENT_PATH)/test/run_test.sh"
+	bash -c "source $(MAIN_PATH)/environment_variables.sh && $(PARENT_PATH)/workload/run_workload.sh"
 
 version:
 	$(INSTALLER_PATH) version
@@ -77,10 +86,11 @@ version:
 help:
 	@echo "Usage:"
 	@echo "  make install-config  - Create the install configuration"
-	@echo "  make cluster         - Create the cluster: Comment out 'export OPENSHIFT_INSTALL_RELEASE_IMAGE_OVERRIDE' when using the official version"
+	@echo "  make cluster/deploy         - Create the cluster: Comment out 'export OPENSHIFT_INSTALL_RELEASE_IMAGE_OVERRIDE' when using the official version"
 	@echo "  make destroy         - Destroy the cluster"
 	@echo "  make operator        - Install CNV/LSO/ODF operators [DATA DISK Required - 3 disks per worker!!!]"
-	@echo "  make operator_odf    - Install ODF operator [DATA DISK Required]"
-	@echo "  make operator_cnv    - Install CNV operator"
-	@echo "  make test            - Run workloads (ensure test environments are configured and Podman is installed): Results path: /tmp/benchmark-runner-run-artifacts"
+	@echo "  make lso    - Install LSO operator [DATA DISK Required]"
+	@echo "  make odf    - Install ODF operator [DATA DISK Required]"
+	@echo "  make cnv    - Install CNV operator"
+	@echo "  make workload            - Run workloads (ensure test environments are configured and Podman is installed): Results path: /tmp/benchmark-runner-run-artifacts"
 	@echo "  make version         - Display the OpenShift installer version"
