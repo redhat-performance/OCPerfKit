@@ -31,6 +31,8 @@ sudo podman run --rm -it \
     -e SAVE_ARTIFACTS_LOCAL=True \
     -e ENABLE_PROMETHEUS_SNAPSHOT="$ENABLE_PROMETHEUS_SNAPSHOT" \
     -e RUN_TYPE="$RUN_TYPE" \
+    -e LSO_DISK_ID="$LSO_DISK_ID" \
+    -e LSO_NODE="$LSO_NODE" \
     -e TIMEOUT=$TIMEOUT \
     -e log_level="INFO" \
     -v "$KUBECONFIG_PATH":"$CONTAINER_KUBECONFIG_PATH" \

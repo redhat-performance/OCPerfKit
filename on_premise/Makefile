@@ -7,9 +7,9 @@ export PARENT_PATH = $(shell dirname $(MAIN_PATH))
 export MAIN_PATH = $(shell pwd)
 
 # Targets
-.PHONY: install-config cluster destroy help operator operator_common operator_odf operator_cnv version test
+.PHONY: install-config cluster deply destroy help operator operator_common odf cnv version workload
 
-cluster:
+cluster deploy:
 	@echo "Checking environment setup..."
 	@read -p "Did you fill in environment_variables.sh and run 'source environment_variables.sh'? [y/N] " confirm && if [ "$$confirm" != "y" ]; then \
 		echo "Please fill in and source environment_variables.sh first."; \
@@ -39,17 +39,25 @@ operator: operator_common
 	fi
 	@bash -c "source $(MAIN_PATH)/environment_variables.sh && $(PARENT_PATH)/operator/run_operator.sh"
 
-operator_odf: operator_common
+lso: operator_common
+	@read -p "Did you add the required LSO disk (1 disk per worker)? [y/N] " confirm; \
+	if [ "$$confirm" != "y" ]; then \
+	    echo "Please add the disks before proceeding."; \
+	    exit 1; \
+	fi; \
+	bash -c "source $(MAIN_PATH)/environment_variables.sh && $(PARENT_PATH)/operator/lso/run_lso.sh"
+
+odf: operator_common
 	@read -p "Did you add the required ODF disks (3 disks per worker)? [y/N] " confirm && if [ "$$confirm" != "y" ]; then \
 		echo "Please add the disks before proceeding."; \
 		exit 1; \
 	fi
 	@bash -c "source $(MAIN_PATH)/environment_variables.sh && $(PARENT_PATH)/operator/odf/run_odf.sh"
 
-operator_cnv: operator_common
+cnv: operator_common
 	@bash -c "source $(MAIN_PATH)/environment_variables.sh && $(PARENT_PATH)/operator/cnv/run_cnv.sh"
 
-test:
+workload:
 	@if [ ! -f "$(MAIN_PATH)/environment_variables.sh" ]; then \
 		echo "Environment script $(MAIN_PATH)/environment_variables.sh not found! Please ensure it exists."; \
 		exit 1; \
@@ -59,12 +67,13 @@ test:
 		exit 1; \
 	fi
 	@git pull
-	@bash -c "source $(MAIN_PATH)/environment_variables.sh && $(PARENT_PATH)/test/run_test.sh"
+	@bash -c "source $(MAIN_PATH)/environment_variables.sh && $(PARENT_PATH)/workload/run_workload.sh"
 
 help:
 	@echo "Usage:"
-	@echo "  make cluster         - Create BareMetal cluster"
-	@echo "  make operator        - Install CNV/LSO/ODF operators [DATA DISK Required - 3 disks per worker!!!]"
-	@echo "  make operator_odf    - Install ODF operator [DATA DISK Required]"
-	@echo "  make operator_cnv    - Install CNV operator"
-	@echo "  make test            - Run Workloads (ensure test environments are configured and podman is installed): Results path: /tmp/benchmark-runner-run-artifacts"
+	@echo "  make cluster/deploy         - Create BareMetal cluster"
+	@echo "  make operator        - Install CNV/LSO/ODF operators [DATA DISK Required - disks per worker!!!]"
+	@echo "  make lso    - Install LSO operator [DATA DISK Required]"
+	@echo "  make odf    - Install ODF operator [DATA DISK Required]"
+	@echo "  make cnv    - Install CNV operator"
+	@echo "  make workload            - Run Workloads (ensure test environments are configured and podman is installed): Results path: /tmp/benchmark-runner-run-artifacts"
