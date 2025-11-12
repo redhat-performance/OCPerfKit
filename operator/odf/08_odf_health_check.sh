@@ -7,6 +7,9 @@ set -x; cd "$(mktemp -d)" && OS="$(uname | tr '[:upper:]' '[:lower:]')" && ARCH=
 
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
+# install rook-ceph plugin
+kubectl krew install rook-ceph
+
 # ODF health check with timeout of 3600 seconds
 timeout=1200
 elapsed=0
