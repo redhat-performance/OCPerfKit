@@ -40,6 +40,6 @@ export TIMEOUT=10000
 export WORKLOAD="hammerdb_vm_mssql"
 
 # HammerDB config override (optional), overrides template defaults.
-# perf_ci defaults: HAMMERDB_CONFIG="{'db_min_workers': 1, 'db_num_workers': 32, 'db_warehouses': 96, 'runtime': 1, 'rampup': 1, 'iterations': 2, 'transactions': 100000, 'database_requests_cpu': 32, 'sockets': 32, 'cores': 1, 'database_requests_memory': '32Gi', 'data_storage': '100Gi'}"
+# perf_ci defaults: HAMMERDB_CONFIG="{'db_min_workers': 1, 'db_num_workers': 32, 'db_warehouses': 96, 'runtime': 1, 'rampup': 1, 'iterations': 2, 'transactions': 100000, 'database_requests_cpu': 32, 'sockets': 1, 'cores': 32, 'vm_requests_memory': '32Gi', 'database_requests_memory': '32Gi', 'data_storage': '100Gi'}"
 export HAMMERDB_CONFIG="{}"
 
