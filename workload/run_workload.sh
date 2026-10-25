@@ -24,6 +24,7 @@ echo "Example: $RESULTS_PATH/hammerdb-vm-mssql-2024-11-28-08-22-39/hammerdb-vm-w
 # Run the container
 sudo podman run --rm -it \
     -e WORKLOAD="$WORKLOAD" \
+    -e HAMMERDB_CONFIG="$HAMMERDB_CONFIG" \
     -e KUBEADMIN_PASSWORD="$KUBEADMIN_PASSWORD" \
     -e PIN_NODE_BENCHMARK_OPERATOR="$PIN_NODE_BENCHMARK_OPERATOR" \
     -e PIN_NODE1="$PIN_NODE1" \

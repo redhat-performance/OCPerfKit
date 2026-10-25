@@ -36,6 +36,20 @@ export LSO_NODE=$(oc get nodes -l node-role.kubernetes.io/worker -o jsonpath='{.
 export RUN_TYPE="func_ci"
 export TIMEOUT=10000
 
+# HammerDB config override (optional), overrides template defaults.
+# Set a key to '' to keep the template default; keys for the other kind are ignored.
+#
+# VM workloads (hammerdb_vm_*):
+#   perf_ci: HAMMERDB_CONFIG="{'db_min_workers': 1, 'db_num_workers': 32, 'db_warehouses': 96, 'runtime': 1, 'rampup': 1, 'iterations': 2, 'transactions': 100000, 'sockets': 32, 'cores': 1, 'vm_requests_memory': '32Gi', 'data_storage': '100Gi'}"
+#   func_ci: HAMMERDB_CONFIG="{'db_min_workers': 1, 'db_num_workers': 2, 'db_warehouses': 2, 'runtime': 1, 'rampup': 1, 'iterations': 2, 'transactions': 100000, 'sockets': 1, 'cores': 2, 'vm_requests_memory': '8Gi', 'data_storage': '10Gi'}"
+#
+# Pod workloads (hammerdb_pod_*):
+#   perf_ci: HAMMERDB_CONFIG="{'db_min_workers': 1, 'db_num_workers': 32, 'db_warehouses': 96, 'runtime': 1, 'rampup': 1, 'iterations': 2, 'transactions': 100000, 'database_requests_cpu': 32, 'database_requests_memory': '32Gi', 'database_limits_cpu': 32, 'database_limits_memory': '32Gi', 'requests_cpu': '10m', 'requests_memory': '16Gi', 'limits_cpu': 16, 'limits_memory': '16Gi', 'data_storage': '100Gi'}"
+#   func_ci: HAMMERDB_CONFIG="{'db_min_workers': 1, 'db_num_workers': 2, 'db_warehouses': 2, 'runtime': 1, 'rampup': 1, 'iterations': 2, 'transactions': 100000, 'database_requests_cpu': '10m', 'database_requests_memory': '4Gi', 'database_limits_cpu': 4, 'database_limits_memory': '12Gi', 'requests_cpu': '10m', 'requests_memory': '4Gi', 'limits_cpu': 4, 'limits_memory': '12Gi', 'data_storage': '10Gi'}"
+#
+# Note: Postgres workloads use 'transactions': 200000.
+export HAMMERDB_CONFIG="{}"
+
 # WORKLOAD='stressng_pod', 'stressng_vm', 'stressng_kata', 'uperf_pod', 'uperf_vm', 'uperf_kata', 'hammerdb_pod_mariadb', 'hammerdb_vm_mariadb', 'hammerdb_kata_mariadb', 'hammerdb_pod_mariadb_lso', 'hammerdb_vm_mariadb_lso', 'hammerdb_kata_mariadb_lso', 'hammerdb_pod_postgres', 'hammerdb_vm_postgres', 'hammerdb_kata_postgres', 'hammerdb_pod_postgres_lso', 'hammerdb_vm_postgres_lso', 'hammerdb_kata_postgres_lso', 'hammerdb_pod_mssql', 'hammerdb_vm_mssql', 'hammerdb_kata_mssql', 'hammerdb_pod_mssql_lso', 'hammerdb_vm_mssql_lso', 'hammerdb_kata_mssql_lso', 'vdbench_pod', 'vdbench_kata', 'vdbench_vm', 'clusterbuster', 'bootstorm_vm', 'windows_vm'
 export WORKLOAD="hammerdb_vm_mssql"
 
